@@ -12,4 +12,5 @@
 define("APP_NAME", "YOURAPP");
 $project_dir = explode('/', dirname($_SERVER['SCRIPT_FILENAME']));
 $project_dir = array_pop($project_dir);
+require_once "bumip/libraries/core/bootstrap_functions.php";
 require_once "configuration/constants.php";

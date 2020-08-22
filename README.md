@@ -30,3 +30,9 @@ You can create a new Model (Entity) in 3 ways. By building a php model from scra
 
 
 ![](https://media.giphy.com/media/Rlrdn6wkCz7o2mEWtK/giphy.gif)
+
+
+# Get in touch
+
+If you want to collab with us or get in touch you can join our discord server.
+https://discord.gg/XWmRxsh
