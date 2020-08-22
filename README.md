@@ -12,12 +12,13 @@ It is an IDT (Integrated Development Tool) built around 4 main principles:
 Bumip takes advantage from both the **ECS** pattern and the **MVC** pattern.
 
 # Systems
-A final Bumip product is composed using **Systems** (called bumip apps), sandboxed microapps (similar to microservices) that you can download within the Admin UI or using CLI. A System is more than a module or a package. It can operate by itself, and often comes with a customizable UI written in Vuejs for the frontend and the backend that you can integrate in your SPA or PWA. **You can customize or write your own UI using your preferred language**. There is also a UI builder in the works that can output Vuejs code or block code that you can render with your framework of choiche (even with plain HTML).
+A final Bumip product is composed using **Systems** (called bumip apps), sandboxed microapps (similar to microservices) that you can download and install within the Admin UI or using CLI. A System is more than a module or a package. It can operate by itself, and often comes with a customizable UI written in Vuejs for the frontend and the backend that you can integrate in your SPA or PWA. **You can customize or write your own UI using your preferred language**. There is also a UI builder in the works that can output Vuejs code or block code that you can render with your framework of choiche (even with plain HTML).
 Buimip will come with a lot of optional Bumip Apps:
 * User App: Signup, Login, Settings, Admin integration. Comes with UI.
 * CMS
 * Billing App
 * Admin app (yes, even the admin is a Bumip App)
+
 Apps use adapters to interact with eachother. There will be default adapters but you can extend them or write your own.
 **You don't like how Bumip/User deals with security?** Extend the app, build your own user app or install a third party user app.
 
@@ -26,3 +27,6 @@ Apps use adapters to interact with eachother. There will be default adapters but
 # Models or Entities
 
 You can create a new Model (Entity) in 3 ways. By building a php model from scratch, by using json-schema or  by using the entity builder in the admin app using the UI. The entity builder creates a json-schema and can be used as it is in php or extended via code.
+
+
+![](https://media.giphy.com/media/Rlrdn6wkCz7o2mEWtK/giphy.gif)
