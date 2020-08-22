@@ -1,4 +1,4 @@
-# bumip
+# Bumip
 
 Bumip is a modern tool for web development. Is not a framework and is not a CMS.
 It is an IDT (Integrated Development Tool) built around 4 main principles:
