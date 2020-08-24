@@ -8,6 +8,7 @@
  */
 define('PROJECT_NAME', $project_dir);
 define('USEDB', true);
+define('USEMYSQL', false);
 define('MULTILANG', true);
 define("DEFAULT_LANGUAGE", "en_US");
 define("OMIT_MAIN", true);

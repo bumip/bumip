@@ -1,25 +1,17 @@
 <?php
-
-/* -----------------------------------------------------------------
-  |		url Class		: V 1.42
-  |		Description 	: Gestisce le url di webdraw
-  |		Changelog		:
-  |------------------------------------------------------------------
-  |						 Eliminato bug querystrind su request_uri
-  |						 Aggiunto supporto beta al request_uri se il path_info non è disponibile.
-  | 						 Corretto bug PATH_INFO se richiamo index.php
-  |						 Corretto pairGetValue
-  |						 Aggiunto url->rebuild;
-  |						 Aggiunta gestione pair url
-  | --------------------------------------------------------------- */
 namespace Bumip\Core;
 
-class url
+/**
+ * Class Url
+ *
+ */
+class Url
 {
-    /* -----------------------------------------------------------------
-      |		Begin : Properties
-      ---------------------------------------------------------------- */
-
+    /**
+     * Properties
+     *
+     * @var [type]
+     */
     public $self;
     public $index;
     public $referer;
