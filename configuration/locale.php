@@ -16,7 +16,7 @@ function set_locale($locale = false)
     putenv("LC_ALL=$locale");
     setlocale(LC_ALL, $locale);
     setlocale(LC_TIME, $locale);
-    bindtextdomain("messages", SPECDIR."locale");
+    bindtextdomain("messages", MVCDIR."locale");
     bind_textdomain_codeset("messages", "utf-8");
     textdomain("messages");
     define("DEFINED_LOCALE", true);
