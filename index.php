@@ -13,4 +13,11 @@ define("APP_NAME", "YOURAPP");
 $project_dir = explode('/', dirname($_SERVER['SCRIPT_FILENAME']));
 $project_dir = array_pop($project_dir);
 require_once "bumip/libraries/core/bootstrap_functions.php";
+/** User configuration */
 require_once "configuration/constants.php";
+/**
+ * From here you should edit only if you have problem or
+ * you need a custom configuration and you should add the following file to your .gitignore
+ */
+require_once "bumip/configuration/constants.php";
+require_once "bumip/bumip.php";

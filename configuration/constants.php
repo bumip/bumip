@@ -10,15 +10,20 @@ define('PROJECT_NAME', $project_dir);
 define('USEDB', true);
 define('MULTILANG', true);
 define("DEFAULT_LANGUAGE", "en_US");
+define("OMIT_MAIN", true);
 /**
- * Error Reporting Handling
+ * Error Reporting Handling and root folder
  */
 if (is_localrun()) {
+    define('ROOT', "/$project_dir/");
     ini_set('display_errors', 1);
     $default_project_error_level =  E_ALL;
 } else {
+    define('ROOT', "/");
     ini_set('display_errors', 0);
     $default_project_error_level =  E_ERROR;
 }
 define('DEFAULT_PROJECT_ERROR_LEVEL', $default_project_error_level);
 error_reporting(DEFAULT_PROJECT_ERROR_LEVEL);
+define('UPLOADFOLDER', 'content/uploaded/');
+define('USERUPLOADFOLDER', 'content/usercontent/uploaded/');
