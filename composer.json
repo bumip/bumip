@@ -1,0 +1,20 @@
+{
+    "name": "bumip/bumip",
+    "description": "A modern application development tool",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "antocorr",
+            "email": "navylon@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Bumip\\MVC\\": "bumip/mvc/",
+            "Bumip\\": "bumip/libraries/"
+        }
+    },
+    "require": {}
+}

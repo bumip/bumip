@@ -3,9 +3,9 @@
  * Here are included the required files fo the framework
  */
 
-require_once BUMIP_DIR . 'autoloader.php';
 require_once CONFDIR."locale.php";
 // require_once CONFDIR."costants.php";
 // require_once MVCDIR.'loader.php';
 // require_once LIBDIR."core/controller.php";
-$app = new Bumip\Core\Controller();
+$configuration = new Bumip\Core\DataHolder();
+$app = new Bumip\MVC\Controller\MainController($configuration);

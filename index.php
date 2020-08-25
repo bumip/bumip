@@ -20,4 +20,5 @@ require_once "configuration/constants.php";
  * you need a custom configuration and you should add the following file to your .gitignore
  */
 require_once "bumip/configuration/constants.php";
+require_once 'vendor/autoload.php';
 require_once "bumip/bumip.php";
