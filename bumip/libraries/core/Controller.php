@@ -5,6 +5,7 @@ class Controller
 {
     private $config;
     public $url;
+    private $protectedMethods = ['load', 'callmethodbyurl'];
     public $db = false;
     public $dbautoconnect = true;
     public $useimgcache = true;
@@ -37,7 +38,7 @@ class Controller
             $this->action = DEFAULT_ACTION;
         }
         /**
-         * This part will be removed once we fix autoloader.
+         * This part will be removed once we fix autoloading.
          */
         $this->model = new FileLoader(MVCDIR . 'model/');
         $this->controller = new FileLoader(MVCDIR . 'controller/');
@@ -56,12 +57,37 @@ class Controller
             exit();
         }
     }
-        
+    public function protectMethod($metodName)
+    {
+        if (!in_array($metodName, $this->protectedMethods)) {
+            $this->protectedMethods[] = $metodName;
+        }
+    }
     public function callMethodByUrl()
     {
         $action = $this->action;
+        if (in_array(strtolower($action), $this->protectedMethods)) {
+            echo "To enable the controller method '$action' you need to exclude it from the protectedMethods list";
+            return false;
+        }
         if (method_exists($this, $action)) {
-            $this->$action();
+            $r = new \ReflectionMethod(get_class($this), $action);
+            $params = $r->getParameters();
+            if (count($params)) {
+                $args = [];
+                foreach ($params as $param) {
+                    if ($param->getName() == "args") {
+                        $args = $this->url->toArgs($param->getDefaultValue());
+                    }
+                }
+                if (count($args)) {
+                    $this->$action($args);
+                } else {
+                    $this->$action();
+                }
+            } else {
+                $this->$action();
+            }
         } else {
             $this->get_404();
         }
@@ -93,13 +119,13 @@ class Controller
     /**
      * @method load()
      *
-     * Used to load views.
+     * Used to load views or other mvc components while flattening the $data array.
      *
      * @param [type] $file
      * @param boolean $data
      * @return void
      */
-    public function load($file, $data = false)
+    public function load($file, $data = false, $dir = "view")
     {
         if (isset($GLOBALS['passed'])) {
             $passed = $GLOBALS['passed'];
@@ -114,9 +140,16 @@ class Controller
                 $$k = $v;
             }
         }
-        require MVCDIR . 'view/' . $file;
+        if (get_class($this) == "Controller") {
+            require MVCDIR . $dir . '/' . $file;
+        } else {
+            require EXTEND_DIR . 'mvc/' . $dir . '/' . $file;
+        }
     }
-
+    public function __call($name, $arguments)
+    {
+        echo "To enable the controller method '$name' you need to change its visibility to public or protected";
+    }
     public function resized()
     {
         $width = false;

@@ -95,15 +95,53 @@ class Url
      *
      * @param string $url URL to set the header location...
      */
-    public function redirect($url = "")
+    public function redirect($url = "", $http_response_header = 301)
     {
-        header("Location: " . $url, true, 301);
+        header("Location: " . $url, true, $http_response_header);
         exit();
     }
-
-    // redirect
-
-    /*	 * ********************************************************************** */
+    /**
+     * toArgs:
+     * Converts segments to an array of arguments: you can use an array or a string
+     * @example project/hello/world you input [greetings => 1, subject => 2] or 1:greetings/2:subject and you get
+     * [greetings => hello, subject => world]
+     *
+     * @param mixed $params
+     * @param integer $offset
+     * @return array
+     */
+    public function toArgs($params = null, $offset = 2)
+    {
+        $args = [];
+        if ($params) {
+            if (is_string($params)) {
+                $params = explode('/', trim($params, '/'));
+                foreach ($params as $k => $v) {
+                    $pos = strpos($v, ':');
+                    if ($pos !== -1) {
+                        $key = explode(":", $v);
+                        if ($pos == 0) {
+                            $newParams[$key[1]] = $k + $offset;
+                        } else {
+                            $newParams[$key[1]] = $key[0];
+                        }
+                    }
+                }
+                if (!empty($newParams)) {
+                    $params = $newParams;
+                }
+            }
+            if (count($params)) {
+                foreach ($params as $k => $v) {
+                    $args[$k] = $this->index($v);
+                }
+            }
+        }
+        return $args;
+    }
+    /**
+     * @return string with the language starting segment ex. /hello => /it/hello
+     */
 
     public function localeUrl($url = false, $language = false)
     {
