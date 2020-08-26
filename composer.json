@@ -13,7 +13,8 @@
     "autoload": {
         "psr-4": {
             "Bumip\\MVC\\": "bumip/mvc/",
-            "Bumip\\": "bumip/libraries/"
+            "Bumip\\": "bumip/libraries/",
+            "App\\": "extend/"
         }
     },
     "require": {}

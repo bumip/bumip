@@ -31,7 +31,7 @@ class Url
             $this->pathinfo = $_SERVER['PATH_INFO'];
         } else {
             $this->mode = "requesturi";
-            $this->pathinfo = str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
+            $this->pathinfo = str_replace('?' . ($_SERVER['QUERY_STRING'] ?? ''), '', $_SERVER['REQUEST_URI']);
         }
         $scriptname = trim(str_replace('index.php', "", $_SERVER['SCRIPT_NAME']));
         $this->pathinfo = trim(str_replace($scriptname, "/", $this->pathinfo));

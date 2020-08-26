@@ -8,7 +8,7 @@ define('BUMIP_DIR', $bumip_dir);
 define('FWDIR', $bumip_dir);
 define('MVCDIR', $mvc_dir);
 define('CONFDIR', $configuration_dir);
-define('extend_dir', $extend_dir);
+define('EXTEND_DIR', $extend_dir);
 define('LIBDIR', FWDIR . "libraries/");
 define('DEFAULT_METHOD', "index");
 define('DEFAULT_PATH_INFO', "/main/index/");
