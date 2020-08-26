@@ -15,6 +15,7 @@ class Url
     public $self;
     public $fullSelf;
     public $index;
+    public $indexOffset = 1;
     private $config;
     public $referer;
     public $referrer;
@@ -196,13 +197,17 @@ class Url
             }
         }
     }
-
+    public function setOffset($offset)
+    {
+        $this->indexOffset = $offset;
+    }
     /* -----------------------------------------------------------------
       |		Method : index
       ---------------------------------------------------------------- */
 
     public function index($id, $default = false)
     {
+        $id += ($this->indexOffset - 1);
         if (isset($this->index[$id])) {
             return $this->index[$id];
         } else {

@@ -19,12 +19,16 @@ class AdminController extends \Bumip\Core\SubController
         //     $this->options[$k] = $v;
         // }
         parent::__construct($config);
+        /**
+         * 3 becomes 1, helps with params.
+         */
+        $this->url->setOffset(3);
     }
     public function hello()
     {
         echo "helo";
     }
-    public function example($args = '2:id/3:table_id')
+    public function example($args = '1:id/2:table_id')
     {
         list($id, $table_id) = array_values($args);
         print $id;
