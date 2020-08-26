@@ -5,6 +5,7 @@ class Controller
 {
     private $config;
     public $url;
+    public $urlOffset = 1;
     private $protectedMethods = ['load', 'callmethodbyurl'];
     public $db = false;
     public $dbautoconnect = true;
@@ -16,7 +17,7 @@ class Controller
     public $methodCalledByUrl = false;
     
 
-    public function __construct($config = null)
+    public function __construct($config = null, $urlOffset = null)
     {
         $this->config = $config;
         $this->url = new Url($config);
@@ -36,6 +37,10 @@ class Controller
             $this->action = $this->url->index[1];
         } else {
             $this->action = DEFAULT_ACTION;
+        }
+        if ($urlOffset) {
+            $this->action = $this->url->index[$urlOffset];
+            $this->urlOffset = $urlOffset;
         }
         /**
          * This part will be removed once we fix autoloading.
@@ -70,6 +75,13 @@ class Controller
             echo "To enable the controller method '$action' you need to exclude it from the protectedMethods list";
             return false;
         }
+        $apps = $this->config->data("apps");
+        if (!empty($apps["controllerMap"][$action])) {
+            $class = $apps["controllerMap"][$action];
+            $app = new $class($this->config, $this, $this->options ?? []);
+            $app->callMethodByUrl();
+            return true;
+        }
         if (method_exists($this, $action)) {
             $r = new \ReflectionMethod(get_class($this), $action);
             $params = $r->getParameters();
@@ -101,6 +113,10 @@ class Controller
     public function get_404()
     {
         header("HTTP/1.0 404 Not Found");
+    }
+    public function index()
+    {
+        echo "please override this method";
     }
     /**
      * @todo replace with Query builder. Move it to the MainController.

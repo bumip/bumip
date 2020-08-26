@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteCond $1 !^(index\.php|info.php|engine|content|reservation2|hosting2|output|emergency|include|robots\.txt|firebase-messaging-sw\.js)
+RewriteRule ^(.*)$ index.php/$1 [L]
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/css text/x-component application/x-javascript application/javascript text/javascript text/x-js text/html text/richtext image/svg+xml text/plain text/xsd text/xsl text/xml image/x-icon application/json
+</IfModule>

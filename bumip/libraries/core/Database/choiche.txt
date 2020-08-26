@@ -1,0 +1,46 @@
+Esempio API DBAL
+https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/query-builder.html#sql-query-builder
+
+
+$queryBuilder
+    ->select('id', 'name')
+    ->from('users')
+    ->where('email = ?')
+    ->setParameter(0, $userInputEmail)
+;
+$queryBuilder
+    ->select('id', 'name')
+    ->from('users');
+
+CI query builder
+http://codeigniter.com/user_guide/database/query_builder.html
+
+$builder->db->table('blog');
+$builder->select('*');
+$builder->join('comments', 'comments.id = blogs.id');
+$query = $builder->get();
+
+// Produces:
+// SELECT * FROM blogs JOIN comments O
+
+$builder->where('name', $name);
+$builder->where('title', $title);
+$builder->where('status', $status);
+// WHERE name = 'Joe' AND title = 'boss' AND status = 'active'
+
+Hydrahon 
+
+https://github.com/ClanCats/Hydrahon
+
+$people->update()
+    ->set('age', 26)
+    ->where('name', 'Ray')
+->execute();
+
+$people->select()->get();
+
+// select * from `people` where `age` = 21 and `name` like 'J%'
+$people->select()
+    ->where('age', 21)
+    ->where('name', 'like', 'J%')
+    ->get();
