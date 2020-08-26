@@ -3,6 +3,7 @@ namespace Bumip\Core;
 
 class Controller
 {
+    private $config;
     public $url;
     public $db = false;
     public $dbautoconnect = true;
@@ -14,9 +15,10 @@ class Controller
     public $methodCalledByUrl = false;
     
 
-    public function __construct()
+    public function __construct($config = null)
     {
-        $this->url = new Url();
+        $this->config = $config;
+        $this->url = new Url($config);
         $module = $this->url->index[1];
         if (OMIT_MAIN) {
             $module = "main";

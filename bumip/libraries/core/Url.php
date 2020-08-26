@@ -13,19 +13,20 @@ class Url
      * @var [type]
      */
     public $self;
+    public $fullSelf;
     public $index;
+    private $config;
     public $referer;
     public $referrer;
     public $querystring;
     public $mode;
-    /* -----------------------------------------------------------------
-      |		Constructor : url()
-      ---------------------------------------------------------------- */
 
-    public function __construct()
+
+    public function __construct($config = null)
     {
         $this->self = $_SERVER['REQUEST_URI'];
-        $this->full_self = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $protocol = !empty($_SERVER['HTTPS'])? 'https' : 'http';
+        $this->fullSelf = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         if (isset($_SERVER['PATH_INFO'])) {
             $this->mode = "pathinfo";
             $this->pathinfo = $_SERVER['PATH_INFO'];
@@ -42,7 +43,8 @@ class Url
         }
         $this->makeIndexes();
 
-        global $avail_lang;
+        $avail_lang = $config->get("availableLanguages");
+        $this->config = $config;
         /**
          * @1 URL SWITCHING
          * @2 COOKIE
@@ -84,41 +86,6 @@ class Url
             if (!defined("DEFINED_LOCALE")) {
                 set_locale();
             }
-            /*if (isset($avail_lang[$this->index(1)])) {
-                if (!defined("CURRENT_LANGUAGE")) {
-                    $lang_prefix = array_shift($this->index);
-                    DEFINE('CURRENT_LANGUAGE', $avail_lang[$lang_prefix]);
-                    DEFINE('CURRENT_LANGUAGE_PREFIX', $lang_prefix);
-                } else {
-                    array_shift($this->index);
-                }
-                $this->indexRebuild();
-                if (!count($this->index)) {
-                    if (!OMIT_MAIN) {
-                        $this->index = explode("/", DEFAULT_PATH_INFO);
-                    } else {
-                        $this->index = array(1 => "index");
-                    }
-                }
-            } else {
-                if ($ref = explode("/", str_replace(ROOT_EXT, '', $this->referrer)) AND isset($avail_lang[$ref[0]])) {
-                    if (!defined("CURRENT_LANGUAGE")) {
-                        $lang_prefix = $ref[0];
-                        DEFINE('CURRENT_LANGUAGE', $avail_lang[$lang_prefix]);
-                        DEFINE('CURRENT_LANGUAGE_PREFIX', $lang_prefix);
-                    } else {
-
-                    }
-                } else {
-                    if (!defined('CURRENT_LANGUAGE'))
-                        define('CURRENT_LANGUAGE', DEFAULT_LANGUAGE);
-                    if (!defined('CURRENT_LANGUAGE_PREFIX'))
-                        define('CURRENT_LANGUAGE_PREFIX', array_search(DEFAULT_LANGUAGE, $avail_lang));
-                }
-            }
-            if (!defined("DEFINED_LOCALE")) {
-                set_locale();
-            }*/
         }
     }
 
@@ -157,7 +124,7 @@ class Url
         if ($language) {
             $lang = $language;
         } else {
-            global $avail_lang;
+            $avail_lang = $this->config->get("availableLanguages");
             $lang = array_search($lang, $avail_lang);
         }
         $url[-1] = $lang;
@@ -308,8 +275,4 @@ class Url
             return array_pop($ix);
         }
     }
-
-    /* -----------------------------------------------------------------
-      |		End of class
-      ---------------------------------------------------------------- */
 }
