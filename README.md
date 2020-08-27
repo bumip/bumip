@@ -19,6 +19,9 @@ Buimip will come with a lot of optional Bumip Apps:
 * Billing App
 * Admin app (yes, even the admin is a Bumip App)
 
+## Installing an app from the UI (Importing a System)
+![](https://i.gyazo.com/54d398e14045fdae6a576e27973aaf4f.gif)
+
 Apps use adapters to interact with eachother. There will be default adapters but you can extend them or write your own.
 **You don't like how Bumip/User deals with security?** Extend the app, build your own user app or install a third party user app.
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Rename this file to Main.php
+ */
 class Main extends \Bumip\MVC\MainController
 {
     public function __construct($config = null)
