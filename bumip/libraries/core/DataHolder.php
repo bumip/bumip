@@ -18,8 +18,23 @@ class DataHolder
             }
             $this->data[$key] = $value;
         } else {
+            if (strpos($key, "/") !== false) {
+                $d = $this->data;
+                foreach (explode("/", $key) as $k) {
+                    if (!isset($d[$k])) {
+                        return $returnOnNoValue;
+                    }
+                    $d = $d[$k];
+                }
+                return $d;
+            }
             return $this->data[$key] ?? $returnOnNoValue;
         }
+    }
+    public function dataAsDataHolder($key)
+    {
+        $d = $this->data($key);
+        return $d ? new DataHolder($d) : false;
     }
     public function get($key)
     {
@@ -28,5 +43,13 @@ class DataHolder
     public function set($key, $value)
     {
         $this->data($key, $value);
+    }
+    public function removeData($key = null)
+    {
+        if ($key) {
+            unset($this->data[$key]);
+        } else {
+            $this->data = [];
+        }
     }
 }

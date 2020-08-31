@@ -20,4 +20,13 @@ $conf["controllerMap"] = [
     "admin" => "Bumip\Apps\Admin\AdminController",
     "hosting3" => "Tomokit\ReservationManagerController"
 ];
+$conf["enabledEntities"] = [
+    "global" => [
+        "user" => [
+            "class" => "Bumip\Entities\User",
+            "path" => "app/entities/User.php",
+            "controllerProperty" => "user"
+        ]
+    ]
+];
 return $conf;

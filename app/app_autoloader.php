@@ -13,6 +13,6 @@ spl_autoload_register(function ($class) {
     }
     $package = $conf["classMap"][$class];
     $package = $conf["enabledApps"][$package];
-    $path =  "apps/" . $package["directory"]  . '/app/'.  $package["classPaths"][$class];
+    $path =  "app/apps/" . $package["directory"]  . '/app/'.  $package["classPaths"][$class];
     include $path;
 });

@@ -3,7 +3,7 @@ namespace Bumip\Core;
 
 class Controller
 {
-    private $config;
+    protected $config;
     public $url;
     public $urlOffset = 1;
     private $protectedMethods = ['load', 'callmethodbyurl'];
@@ -54,13 +54,16 @@ class Controller
          * @todo fix this
          * This will be fixed when I copy the query builder over.
          */
-        if (USEMYSQL and $this->dbautoconnect) {
-            $this->mysqlconnect();
-        }
-        if (defined('DB_CANNOT_CONNECT') and method_exists($this, 'db_error')) {
-            $this->db_error();
-            exit();
-        }
+        $connection = \Bumip\Core\Database\Connection::getConnection(DATABASE_DRIVER);
+        $this->db =  \Bumip\Core\Database\Connection::getDatabase(DATABASE_DRIVER);
+        $this->config->data("db", $this->db);
+        // if (USEMYSQL and $this->dbautoconnect) {
+        //     $this->mysqlconnect();
+        // }
+        // if (defined('DB_CANNOT_CONNECT') and method_exists($this, 'db_error')) {
+        //     $this->db_error();
+        //     exit();
+        // }
     }
     public function protectMethod($metodName)
     {

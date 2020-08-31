@@ -6,13 +6,16 @@ class MainController extends \Bumip\Core\Controller
     public $user;
     public function __construct($config = null)
     {
-        $apps = include "apps/enabledApps.php";
+        $apps = include "app/enabledApps.php";
         $config->data("apps", $apps);
-        if ($globalApps = $config->get("globalApps")) {
-            if (isset($globalApps['user'])) {
-                $this->user = new $this->config->globalApps['user']['entity']();
+        parent::__construct($config);
+        $config = $this->config;
+        if ($globalEntities = $config->get("apps/enabledEntities/global")) {
+            $options = ["db" => $config->get("db"), "controller" => &$this];
+            foreach ($globalEntities as $entity) {
+                include $entity["path"];
+                $this->{$entity["controllerProperty"]} = new $entity["class"]($options);
             }
         }
-        parent::__construct($config);
     }
 }
