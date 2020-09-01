@@ -12,12 +12,20 @@ $conf["enabledApps"]["package_0002"] = [
         "Tomokit\ReservationManagerController" => "ReservationManager.php"
     ]
 ];
+$conf["enabledApps"]["package_0003"] = [
+    "directory" => "org.bumip.user",
+    "classPaths" => [
+        "Bumip\Apps\User\UserController" => "User.php"
+    ]
+];
 $conf["classMap"] = [
     "Bumip\Apps\Admin\AdminController" => "package_0001",
-    "Tomokit\ReservationManagerController" => "package_0002"
+    "Tomokit\ReservationManagerController" => "package_0002",
+    "Bumip\Apps\User\UserController" => "package_0003"
 ];
 $conf["controllerMap"] = [
     "admin" => "Bumip\Apps\Admin\AdminController",
+    "user" => "Bumip\Apps\User\UserController",
     "hosting3" => "Tomokit\ReservationManagerController"
 ];
 $conf["enabledEntities"] = [

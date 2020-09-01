@@ -1,0 +1,25 @@
+{
+    "name": "org.bumip.user",
+    "title": "Bumip User",
+    "route": "user",
+    "adminRoute": "users",
+    "classPaths": {
+        "Bumip\\Apps\\Admin\\AdminController": "Admin.php"
+    },
+    "entities": {
+        "user": {
+            "class": "Bumip\\Entities\\User",
+            "path": "User.php",
+            "controllerProperty": "user",
+            "installGLobally": true
+        }
+    },
+    "UI": {
+        "Vuetify": [
+            {
+                "file": "pages/Signup.vue",
+                "directory": "pages/"
+            }
+        ]
+    }
+}

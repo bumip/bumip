@@ -39,7 +39,11 @@ class Controller
             $this->action = DEFAULT_ACTION;
         }
         if ($urlOffset) {
-            $this->action = $this->url->index[$urlOffset];
+            if (!empty($this->url->index[$urlOffset])) {
+                $this->action = $this->url->index[$urlOffset];
+            } else {
+                $this->action = DEFAULT_ACTION;
+            }
             $this->urlOffset = $urlOffset;
         }
         /**

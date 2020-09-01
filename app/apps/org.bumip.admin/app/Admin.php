@@ -36,4 +36,38 @@ class AdminController extends \Bumip\Core\SubController
     {
         echo $this->url->pairGetValue("job");
     }
+    private function getPackage($package)
+    {
+        $path = "app/apps/" . $package . "/app/";
+        if (is_file($path . "package.json")) {
+            $package = json_decode(file_get_contents($path . "package.json"), true);
+            $package["path"] = $path;
+            return $package;
+        }
+        return false;
+    }
+    public function update_ui($args = "1:package/2:uilib")
+    {
+        $package = $this->getPackage($args["package"]);
+        if (!$package) {
+            echo("Package {$args["package"]} does not exists.");
+            return false;
+        }
+        $uilib = \ucfirst($args["uilib"]);
+        $ui = [];
+        foreach ($package["UI"][$uilib] as $k => $v) {
+            $ui[$k] = $v;
+            $ui[$k]["file"] = ROOT_EXT . $package["path"] . $ui[$k]["file"];
+        }
+        echo json_encode($ui, JSON_PRETTY_PRINT);
+    }
+    public function install($args = "1:package")
+    {
+        $package =  $args["package"];
+        $package = $this->getPackage($package);
+        if (!$package) {
+            echo("Package {$args["package"]} does not exists.");
+            return false;
+        }
+    }
 }
