@@ -28,7 +28,7 @@ class Url
         $this->self = $_SERVER['REQUEST_URI'];
         $protocol = !empty($_SERVER['HTTPS'])? 'https' : 'http';
         $this->fullSelf = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        if (isset($_SERVER['PATH_INFO'])) {
+        if (!empty($_SERVER['PATH_INFO'])) {
             $this->mode = "pathinfo";
             $this->pathinfo = $_SERVER['PATH_INFO'];
         } else {

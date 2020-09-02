@@ -26,6 +26,7 @@ class AdminController extends \Bumip\Core\SubController
     }
     public function hello()
     {
+        echo "hello";
     }
     public function example($args = '1:id/2:table_id')
     {
