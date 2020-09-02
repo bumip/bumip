@@ -18,7 +18,10 @@ class Connection
             if ($type == "MongoDb") {
                 self::$connection = new MongoDb(mdbtstr);
             } elseif ($type == "PDO") {
-                self::$connection = new \PDO(PDOSTR, DBUSER, DBPASS);
+                try {
+                    self::$connection = new \PDO(PDOSTR, DBUSER, DBPASS);
+                } catch (\Throwable $th) {
+                }
             } else {
                 echo "'$type' is unsupported";
             }

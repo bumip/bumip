@@ -41,7 +41,8 @@ class AdminController extends \Bumip\Core\SubController
         $path = "app/apps/" . $package . "/app/";
         if (is_file($path . "package.json")) {
             $package = json_decode(file_get_contents($path . "package.json"), true);
-            $package["path"] = $path;
+            $package["fullpath"] = $path;
+            $package["path"] = $package["name"] . "/app/";
             return $package;
         }
         return false;
@@ -58,11 +59,18 @@ class AdminController extends \Bumip\Core\SubController
         foreach ($package["UI"][$uilib] as $k => $v) {
             $ui[$k] = $v;
             $ui[$k]["file"] =  $package["path"] . $ui[$k]["file"];
+            $ui[$k]["donwloadUrl"] = ROOT_EXT . $this->config->get("parentMethod") . "/getfile?file=" . $ui[$k]["file"];
         }
         echo json_encode($ui, JSON_PRETTY_PRINT);
     }
     public function getfile()
     {
+        $file = $_REQUEST["file"] ?? false;
+        if (!$file) {
+            return false;
+        } else {
+            echo $file = "app/apps/" . $file;
+        }
     }
     public function install($args = "1:package")
     {
