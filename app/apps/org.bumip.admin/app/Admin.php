@@ -57,9 +57,12 @@ class AdminController extends \Bumip\Core\SubController
         $ui = [];
         foreach ($package["UI"][$uilib] as $k => $v) {
             $ui[$k] = $v;
-            $ui[$k]["file"] = ROOT_EXT . $package["path"] . $ui[$k]["file"];
+            $ui[$k]["file"] =  $package["path"] . $ui[$k]["file"];
         }
         echo json_encode($ui, JSON_PRETTY_PRINT);
+    }
+    public function getfile()
+    {
     }
     public function install($args = "1:package")
     {

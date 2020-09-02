@@ -44,7 +44,7 @@ class Url
         }
         $this->makeIndexes();
 
-        $avail_lang = $config->get("availableLanguages");
+        $avail_lang = $config->get("language/availableLanguages");
         $this->config = $config;
         /**
          * @1 URL SWITCHING

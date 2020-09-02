@@ -85,6 +85,7 @@ class Controller
         $apps = $this->config->data("apps");
         if (!empty($apps["controllerMap"][$action])) {
             $class = $apps["controllerMap"][$action];
+            $this->config->data("parentMethod", $action);
             $app = new $class($this->config, $this, $this->options ?? []);
             $app->callMethodByUrl();
             return true;

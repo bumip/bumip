@@ -35,8 +35,9 @@ class UserController extends \Bumip\Core\SubController
     }
     public function index()
     {
-        if (!$this->user->isLogged) {
-            $this->url->redirect("signup");
+        if (!$this->user->isLogged()) {
+            $url = $this->config->get("parentMethod") . "/signup";
+            $this->url->redirect($url);
         } else {
             //Dashboard
         }

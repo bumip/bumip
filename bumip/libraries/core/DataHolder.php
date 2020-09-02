@@ -21,6 +21,9 @@ class DataHolder
             if (strpos($key, "/") !== false) {
                 $d = $this->data;
                 foreach (explode("/", $key) as $k) {
+                    if (is_object($d) && get_class($d) == "Bumip\Core\DataHolder") {
+                        $d = $d->data;
+                    }
                     if (!isset($d[$k])) {
                         return $returnOnNoValue;
                     }
