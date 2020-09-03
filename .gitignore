@@ -28,4 +28,4 @@ Temporary Items
 
 #PHP
 vendor/
-app/apps/com.tomokit.*
+app/apps/com.tomokit.reservation-manager
