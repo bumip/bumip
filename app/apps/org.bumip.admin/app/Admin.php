@@ -66,7 +66,7 @@ class AdminController extends \Bumip\Core\SubController
         foreach ($package["UI"][$uilib] as $k => $v) {
             $ui[$k] = $v;
             $ui[$k]["file"] =  $package["path"] . "UI/" .$uilib . "/" . $ui[$k]["file"];
-            $ui[$k]["donwloadUrl"] = ROOT_EXT . $this->config->get("parentMethod") . "/getfile?file=" . $ui[$k]["file"] . "&package=" . $package["name"];
+            $ui[$k]["downloadUrl"] = ROOT_EXT . $this->config->get("parentMethod") . "/getfile?file=" . $ui[$k]["file"] . "&package=" . $package["name"];
         }
         echo json_encode($ui, JSON_PRETTY_PRINT);
     }
@@ -112,5 +112,6 @@ class AdminController extends \Bumip\Core\SubController
             echo("Package {$args["package"]} does not exists.");
             return false;
         }
+        echo "node add-app.js " . ROOT_EXT . $this->config->get("parentMethod") . "/update_ui/" . $package["name"] . "/vuetify";
     }
 }
