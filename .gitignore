@@ -28,4 +28,4 @@ Temporary Items
 
 #PHP
 vendor/
-apps/com.tomokit.*
+app/apps/com.tomokit.*
