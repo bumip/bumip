@@ -7,6 +7,7 @@ $language = require_once CONFDIR."locale.php";
 // require_once CONFDIR."costants.php";
 // require_once MVCDIR.'loader.php';
 // require_once LIBDIR."core/controller.php";
+$language->data("multilanguage", MULTILANG);
 $configuration = new Bumip\Core\DataHolder(["language" => $language]);
 if (!isset($_SESSION)) {
     session_start();

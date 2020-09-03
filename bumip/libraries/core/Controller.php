@@ -20,8 +20,13 @@ class Controller
     public function __construct($config = null, $urlOffset = null)
     {
         $this->config = $config;
-        $this->url = new Url($config);
-        $module = $this->url->index[1];
+        if ($config->has("urlObject")) {
+            $config->get("urlObject");
+        } else {
+            $this->url = new Url($config);
+        }
+        
+        $module = $this->url->index[1] ?? "main";
         if (OMIT_MAIN) {
             $module = "main";
         }
@@ -34,7 +39,7 @@ class Controller
         if (isset($this->url->index[2]) && $this->url->index[2] != "" && !OMIT_MAIN) {
             $this->action = $this->url->index[2];
         } elseif (OMIT_MAIN) {
-            $this->action = $this->url->index[1];
+            $this->action = $this->url->index[1] ?? DEFAULT_ACTION;
         } else {
             $this->action = DEFAULT_ACTION;
         }

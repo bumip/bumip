@@ -52,7 +52,7 @@ class Url
          * @3 BROWSER LANGUAGE
          * @4 DEFAUL LANGUAGE
          */
-        if (MULTILANG) {
+        if ($config->get("multilanguage")) {
             if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
                 $browser_lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
             } else {

@@ -18,9 +18,13 @@ class DataHolder implements \IteratorAggregate
             }
             $this->data[$key] = $value;
         } else {
-            if (strpos($key, "/") !== false) {
+            $delimiter = strpos($key, "/") !== false ? "/" : false;
+            if (!$delimiter) {
+                $delimiter = strpos($key, ".") !== false ? "." : false;
+            }
+            if ($delimiter) {
                 $d = $this->data;
-                foreach (explode("/", $key) as $k) {
+                foreach (explode($delimiter, $key) as $k) {
                     if (is_object($d) && get_class($d) == "Bumip\Core\DataHolder") {
                         $d = $d->data;
                     }
@@ -38,6 +42,10 @@ class DataHolder implements \IteratorAggregate
     {
         $d = $this->data($key);
         return $d ? new DataHolder($d) : false;
+    }
+    public function has($key)
+    {
+        return isset($this->data[$key]);
     }
     public function get($key)
     {
@@ -70,8 +78,8 @@ class DataHolder implements \IteratorAggregate
      *
      * @return ArrayIterator
      */
-    public function getIterator():ArrayIterator
+    public function getIterator():\ArrayIterator
     {
-        return new ArrayIterator($this->data);
+        return new \ArrayIterator($this->data);
     }
 }
