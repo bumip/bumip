@@ -1,7 +1,7 @@
 <?php
 namespace Bumip\Core;
 
-class DataHolder
+class DataHolder implements \IteratorAggregate
 {
     private $data;
     private $protectedKeys = [];
@@ -54,5 +54,24 @@ class DataHolder
         } else {
             $this->data = [];
         }
+    }
+    /**
+     * Returns json_encoded string
+     *
+     * @param enum $options example JSON_PRETTY_PRINT
+     * @return string
+     */
+    public function toJson(enum $options = null):string
+    {
+        return json_encode($this->data, $options);
+    }
+    /**
+     * getIterator
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator():ArrayIterator
+    {
+        return new ArrayIterator($this->data);
     }
 }
