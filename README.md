@@ -1,4 +1,4 @@
-# Bumip
+# Bumip 3
 
 Bumip is a modern tool for web development. Is not a framework and is not a CMS.
 It is an IDT (Integrated Development Tool) built around 4 main principles:
@@ -8,11 +8,16 @@ It is an IDT (Integrated Development Tool) built around 4 main principles:
 * KISS: Keep it simple stupid! We want our codebase to be easy to maintain and we want to get you to work as fast as possible.
 * Building a real tool to create a real product (not just an API but a complete product) is our main priority. Bumip comes with beautiful customizable UI to kickstart your next creation.
 
+## Status of the project
+
+Bumip is not ready for production yet but it's ready for development/collaboration.
+Bumip 3 was born from a proprietary CMS/Framework in production for over 10 years. We are currently porting over to the new version most of the code from our private repo and we will be finished at the end of September 2020.
+
 # Core Concepts
 Bumip takes advantage from both the **ECS** pattern and the **MVC** pattern.
 
 # Systems
-A final Bumip product is composed using **Systems** (called bumip apps), sandboxed microapps (similar to microservices) that you can download and install within the Admin UI or using CLI. A System is more than a module or a package. It can operate by itself, and often comes with a customizable UI written in Vuejs for the frontend and the backend that you can integrate in your SPA or PWA. **You can customize or write your own UI using your preferred language**. There is also a UI builder in the works that can output Vuejs code or block code that you can render with your framework of choiche (even with plain HTML).
+A final Bumip product is composed using **Systems** (called bumip apps), sandboxed microapps (similar to microservices or decoupled apps) that you can download and install within the Admin UI or using CLI. A System is more than a module or a package. It can operate by itself, and often comes with a customizable UI written in Vuejs for the frontend and the backend that you can integrate in your SPA or PWA. **You can customize or write your own UI using your preferred language**. There is also a UI builder in the works that can output Vuejs code or block code that you can render with your framework of choiche (even with plain HTML).
 Buimip will come with a lot of optional Bumip Apps:
 * User App: Signup, Login, Settings, Admin integration. Comes with UI.
 * CMS

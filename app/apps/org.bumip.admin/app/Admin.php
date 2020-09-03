@@ -5,7 +5,7 @@ class AdminController extends \Bumip\Core\SubController
 {
     private $parent;
 
-    public function __construct($config = null, $parent = null, $options = [])
+    public function __construct(\Bumip\Core\DataHolder $config = null, $parent = null, array $options = [])
     {
         if ($parent) {
             $this->parent = $parent;
@@ -37,7 +37,13 @@ class AdminController extends \Bumip\Core\SubController
     {
         echo $this->url->pairGetValue("job");
     }
-    private function getPackage($package)
+    /**
+     * get package json as array
+     *
+     * @param string $package (package name)
+     * @return array
+     */
+    private function getPackage(string $package):array
     {
         $path = "app/apps/" . $package . "/app/";
         if (is_file($path . "package.json")) {
@@ -59,18 +65,43 @@ class AdminController extends \Bumip\Core\SubController
         $ui = [];
         foreach ($package["UI"][$uilib] as $k => $v) {
             $ui[$k] = $v;
-            $ui[$k]["file"] =  $package["path"] . $ui[$k]["file"];
-            $ui[$k]["donwloadUrl"] = ROOT_EXT . $this->config->get("parentMethod") . "/getfile?file=" . $ui[$k]["file"];
+            $ui[$k]["file"] =  $package["path"] . "UI/" .$uilib . "/" . $ui[$k]["file"];
+            $ui[$k]["donwloadUrl"] = ROOT_EXT . $this->config->get("parentMethod") . "/getfile?file=" . $ui[$k]["file"] . "&package=" . $package["name"];
         }
         echo json_encode($ui, JSON_PRETTY_PRINT);
+    }
+    public function processTemplate(string $content, array $data, array $delimiter = ['[{', '}]'])
+    {
+        foreach ($data as $k => $v) {
+            if (!is_array($v) && !is_object($v)) {
+                $content = str_replace($delimiter[0] . $k . $delimiter[1], $v, $content);
+                $content = str_replace($delimiter[0] . " {$k} " . $delimiter[1], $v, $content);
+            } elseif (is_object($v)) {
+                if (get_class($v) == 'MongoDB\BSON\ObjectId') {
+                    $content = str_replace("[[{$k}]]", (string) $v, $content);
+                }
+            }
+        }
+        return $content;
     }
     public function getfile()
     {
         $file = $_REQUEST["file"] ?? false;
-        if (!$file) {
+        $package = $_REQUEST["package"] ?? false;
+        if (!$file || !$package) {
             return false;
         } else {
-            echo $file = "app/apps/" . $file;
+            $package = $this->getPackage($package);
+            $file = "app/apps/" . $file;
+            $tp = file_get_contents($file);
+            $data = $package["customData"] ?? [];
+            $defaultData = [
+                "apiRoot" => ROOT_EXT,
+                "apiEntryPoint" => ROOT_EXT . $this->config->get("parentMethod"),
+                "appName" => APP_NAME
+            ];
+            $data = array_merge($defaultData, $data);
+            echo $this->processTemplate($tp, $data);
         }
     }
     public function install($args = "1:package")

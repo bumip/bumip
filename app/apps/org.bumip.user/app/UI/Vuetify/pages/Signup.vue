@@ -9,7 +9,7 @@
           style="max-width: 500px"
         >
           <div class="text-center mt-5" v-if="!listing">
-            Company
+            [{ appName }]
             <div class="mt-12 mb-6" v-if="e6 < 4">
               <h3 class="display-2 font-weight-bold">{{btr("Signup")}}</h3>
             </div>
@@ -659,6 +659,7 @@ export default {
   },
   methods: {
     getBaseUrl() {
+      return "[{ apiRoot }]";
       if (top.location.href.includes("http://localhost")) {
         return "http://localhost:8080/hosting2/";
       }
