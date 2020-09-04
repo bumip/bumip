@@ -8,6 +8,7 @@ class Controller
     public $urlOffset = 1;
     private $protectedMethods = ['load', 'callmethodbyurl'];
     public $db = false;
+    protected $connection;
     public $dbautoconnect = true;
     public $useimgcache = true;
     public $model;

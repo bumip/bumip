@@ -4,54 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b9f87af146996ff1b313212a0ae3bf9",
+    "content-hash": "f7df34f5ac1a559e6e38f13320445ad4",
     "packages": [
         {
-            "name": "clancats/hydrahon",
-            "version": "v1.1.12",
+            "name": "envms/fluentpdo",
+            "version": "v2.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ClanCats/Hydrahon.git",
-                "reference": "cc2fc3fd2ea082a2d531a751da49cc6a413270cd"
+                "url": "https://github.com/envms/fluentpdo.git",
+                "reference": "3af5c02ec3d38654e0346029ccbcd8aca930a663"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ClanCats/Hydrahon/zipball/cc2fc3fd2ea082a2d531a751da49cc6a413270cd",
-                "reference": "cc2fc3fd2ea082a2d531a751da49cc6a413270cd",
+                "url": "https://api.github.com/repos/envms/fluentpdo/zipball/3af5c02ec3d38654e0346029ccbcd8aca930a663",
+                "reference": "3af5c02ec3d38654e0346029ccbcd8aca930a663",
                 "shasum": ""
             },
-            "require": {
-                "php": ">=5.4.0"
-            },
             "require-dev": {
-                "phpunit/phpunit": "4.*"
+                "envms/fluent-test": "^1.0",
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "ClanCats\\Hydrahon\\": "src/"
+                    "Envms\\FluentPDO\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "Apache-2.0",
+                "GPL-2.0+"
             ],
             "authors": [
                 {
-                    "name": "Mario Döring",
-                    "role": "Developer"
+                    "name": "envms",
+                    "homepage": "http://env.ms"
                 }
             ],
-            "description": "Fast & standalone PHP MySQL Query Builder library.",
-            "homepage": "https://github.com/ClanCats/Hydrahon",
+            "description": "FluentPDO is a quick and light PHP library for rapid query building. It features a smart join builder, which automatically creates table joins.",
+            "homepage": "https://github.com/envms/fluentpdo",
             "keywords": [
                 "builder",
                 "database",
+                "db",
+                "dbal",
+                "fluent",
                 "mysql",
-                "query",
-                "sqlite"
+                "oracle",
+                "pdo",
+                "query"
             ],
-            "time": "2019-09-19T10:59:20+00:00"
+            "time": "2018-10-30T11:53:23+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -614,12 +617,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "f6075926e937828b180e02964e2d2062af8a9537"
+                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/f6075926e937828b180e02964e2d2062af8a9537",
-                "reference": "f6075926e937828b180e02964e2d2062af8a9537",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/069a785b2141f5bcf49f3e353548dc1cce6df556",
+                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556",
                 "shasum": ""
             },
             "require": {
@@ -658,7 +661,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2020-09-02T21:38:01+00:00"
+            "time": "2020-09-03T19:13:55+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -1072,12 +1075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a59ece3a83000188ab9abad4fe46f397bf082749"
+                "reference": "c10f0d29b6a495fa0cbcaf54b2ef8f7dbba20161"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a59ece3a83000188ab9abad4fe46f397bf082749",
-                "reference": "a59ece3a83000188ab9abad4fe46f397bf082749",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c10f0d29b6a495fa0cbcaf54b2ef8f7dbba20161",
+                "reference": "c10f0d29b6a495fa0cbcaf54b2ef8f7dbba20161",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1166,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-02T11:59:47+00:00"
+            "time": "2020-09-04T08:34:37+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -11,9 +11,9 @@ class AdminController extends \Bumip\Core\SubController
             $this->parent = $parent;
         }
         // $this->db = &$c->db;
-        $connection = \Bumip\Core\Database\Connection::getConnection(DATABASE_DRIVER);
+        $this->connection = \Bumip\Core\Database\Connection::getConnection(DATABASE_DRIVER);
         $this->db =  \Bumip\Core\Database\Connection::getDatabase(DATABASE_DRIVER);
-        $this->url = &$c->url;
+        $this->url = &$parent->url;
         $this->user = &$this->parent->user;
         // foreach ($options as $k => $v) {
         //     $this->options[$k] = $v;
@@ -24,9 +24,30 @@ class AdminController extends \Bumip\Core\SubController
          */
         $this->url->setOffset(3);
     }
-    public function hello()
+    public function dbtest()
     {
-        echo "hello";
+        if (DATABASE_DRIVER == "PDO") {
+            try {
+                $db = $this->connection;
+                $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);//Error Handling
+                $sql ="CREATE TABLE IF NOT EXISTS `people` (
+                    `id` AUTO_INCREMENT unsigned int(11) NOT NULL ,
+                    `name` varchar(255) DEFAULT '',
+                    `age` int(11) DEFAULT NULL,
+                    PRIMARY KEY (`id`)
+                  ) ;
+                  " ;
+                $db->exec($sql);
+            } catch (PDOException $e) {
+                //echo $e->getMessage();//Remove or change message in production code
+            }
+            print("Inserting Values.\n");
+            $people = $this->db->insertInto("people")->values(['name' => 'Ray', 'age' => 25])->execute();
+            
+            $people = $this->db->insertInto("people")->values(['name' => 'John',  'age' => 30])->execute();
+            
+            $people = $this->db->insertInto("people")->values(['name' => 'Ali', 'age' => 22])->execute();
+        }
     }
     public function example($args = '1:id/2:table_id')
     {
@@ -112,6 +133,6 @@ class AdminController extends \Bumip\Core\SubController
             echo("Package {$args["package"]} does not exists.");
             return false;
         }
-        echo "node add-app.js " . ROOT_EXT . $this->config->get("parentMethod") . "/update_ui/" . $package["name"] . "/vuetify";
+        echo "node app-maestro.js " . ROOT_EXT . $this->config->get("parentMethod") . "/update_ui/" . $package["name"] . "/vuetify";
     }
 }

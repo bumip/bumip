@@ -22,7 +22,7 @@ if (is_localrun()) {
 } else {
     define('ROOT', "/");
     ini_set('display_errors', 1);
-    $default_project_error_level =  E_ERROR;
+    $default_project_error_level =  E_ALL;
 }
 define('DEFAULT_PROJECT_ERROR_LEVEL', $default_project_error_level);
 error_reporting(DEFAULT_PROJECT_ERROR_LEVEL);
