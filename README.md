@@ -12,7 +12,6 @@ It is an IDT (Integrated Development Tool) built around 4 main principles:
 
 Bumip is not ready for production yet but it's ready for development/collaboration.
 You can follow our [Development Updates](https://github.com/bumip/bumip/wiki/Development-Updates)  
-
 Bumip 3 was born from a proprietary CMS/Framework in production for over 10 years. We are currently porting over to the new version most of the code from our private repo and we will be finished at the end of September 2020.
 
 # Core Concepts
