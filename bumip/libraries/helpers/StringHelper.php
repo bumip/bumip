@@ -10,4 +10,26 @@ class StringHelper
         $strFinal = $str1[0] . $delimiter[0] . $text . $delimiter[1] . $str2[1];
         return $strFinal;
     }
+    /**
+     * A lightweight templating function with easy custom delimiters.
+     *
+     * @param string $content
+     * @param array $data
+     * @param array $delimiter
+     * @return string
+     */
+    public static function processTemplate(string $content, array $data, array $delimiter = ['[{', '}]']):string
+    {
+        foreach ($data as $k => $v) {
+            if (!is_array($v) && !is_object($v)) {
+                $content = str_replace($delimiter[0] . $k . $delimiter[1], $v, $content);
+                $content = str_replace($delimiter[0] . " {$k} " . $delimiter[1], $v, $content);
+            } elseif (is_object($v)) {
+                if (get_class($v) == 'MongoDB\BSON\ObjectId') {
+                    $content = str_replace($delimiter[0] . " {$k} " . $delimiter[1], (string) $v, $content);
+                }
+            }
+        }
+        return $content;
+    }
 }

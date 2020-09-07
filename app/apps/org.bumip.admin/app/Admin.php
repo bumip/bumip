@@ -89,20 +89,7 @@ class AdminController extends \Bumip\Core\SubController
         }
         echo json_encode($ui, JSON_PRETTY_PRINT);
     }
-    public function processTemplate(string $content, array $data, array $delimiter = ['[{', '}]'])
-    {
-        foreach ($data as $k => $v) {
-            if (!is_array($v) && !is_object($v)) {
-                $content = str_replace($delimiter[0] . $k . $delimiter[1], $v, $content);
-                $content = str_replace($delimiter[0] . " {$k} " . $delimiter[1], $v, $content);
-            } elseif (is_object($v)) {
-                if (get_class($v) == 'MongoDB\BSON\ObjectId') {
-                    $content = str_replace($delimiter[0] . " {$k} " . $delimiter[1], (string) $v, $content);
-                }
-            }
-        }
-        return $content;
-    }
+    
     public function getfile()
     {
         $file = $_REQUEST["file"] ?? false;
@@ -120,7 +107,7 @@ class AdminController extends \Bumip\Core\SubController
                 "appName" => APP_NAME
             ];
             $data = array_merge($defaultData, $data);
-            echo $this->processTemplate($tp, $data);
+            echo \Bumip\Helpers\StringHelper::processTemplate($tp, $data);
         }
     }
     public function install($args = "1:package")
