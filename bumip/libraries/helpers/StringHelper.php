@@ -3,6 +3,14 @@ namespace Bumip\Helpers;
 
 class StringHelper
 {
+    /**
+     * ReplaceDelimited, check the tests for explanation.
+     *
+     * @param string $str
+     * @param string $text
+     * @param array $delimiter
+     * @return string
+     */
     public static function replaceDelimited(string $str, string $text, array $delimiter = ['//@begin', '//@end']):string
     {
         $str1 = explode($delimiter[0], $str);
@@ -11,7 +19,7 @@ class StringHelper
         return $strFinal;
     }
     /**
-     * A lightweight templating function with easy custom delimiters.
+     * A lightweight basic templating function with easy custom delimiters.
      *
      * @param string $content
      * @param array $data

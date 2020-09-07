@@ -7,23 +7,37 @@ class SqlDb extends \Envms\FluentPDO\Query
     public function __get($table)
     {
         $this->currentTable = $table;
+        return $this;
     }
-    public function from(?string $table = null, ?int $primaryKey = null): \Envms\FluentPDO\Queries\Select
+    public function insertOne(array $data): \Envms\FluentPDO\Queries\Insert
     {
-        if (!$table && $this->currentTable) {
+        if ($this->currentTable) {
             $table = $this->currentTable;
+        } else {
+            return false;
         }
-        return parent::from($table, $primaryKey);
-        //Flush currentTable
-        $this->currentTable = null;
+        return $this->insertInto($table, $data);
     }
-    public function insertInto(?string $table = null, array $values = []): \Envms\FluentPDO\Queries\Insert
+    public function find(array $query = []): \Envms\FluentPDO\Queries\Select
     {
-        if (!$table && $this->currentTable) {
+        if ($this->currentTable) {
             $table = $this->currentTable;
+        } else {
+            return false;
         }
-        return parent::insertInto($table, $values);
-        //Flush currentTable
-        $this->currentTable = null;
+        if (!empty($query)) {
+            if (is_string($query)) {
+                return $this->from($table)->where($query);
+            }
+            $q = [];
+            foreach ($query as $k => $v) {
+                $delimiter = is_string($v) ? "'" : '';
+                $q[] = " {$k} = {$delimiter}{$v}{$delimiter} ";
+            }
+            $query = implode(" AND ", $q);
+            return $this->from($table)->where($query);
+        } else {
+            return $this->from($table);
+        }
     }
 }
