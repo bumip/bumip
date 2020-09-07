@@ -1,28 +1,15 @@
 <?php
 namespace Bumip\Apps\Admin;
 
+/**
+ * Most of the stuff on the constructor will  be moved in the Subcontroller Constructor.
+ */
 class AdminController extends \Bumip\Core\SubController
 {
-    private $parent;
-
     public function __construct(\Bumip\Core\DataHolder $config = null, $parent = null, array $options = [])
     {
-        if ($parent) {
-            $this->parent = $parent;
-        }
-        // $this->db = &$c->db;
-        $this->connection = \Bumip\Core\Database\Connection::getConnection(DATABASE_DRIVER);
-        $this->db =  \Bumip\Core\Database\Connection::getDatabase(DATABASE_DRIVER);
-        $this->url = &$parent->url;
-        $this->user = &$this->parent->user;
-        // foreach ($options as $k => $v) {
-        //     $this->options[$k] = $v;
-        // }
-        parent::__construct($config);
-        /**
-         * 3 becomes 1, helps with params.
-         */
-        $this->url->setOffset(3);
+        parent::__construct($config, $parent, $options);
+        $this->protectMethod("rebuildEnabledApps");
     }
     public function dbtest()
     {
@@ -31,10 +18,9 @@ class AdminController extends \Bumip\Core\SubController
                 $db = $this->connection;
                 $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);//Error Handling
                 $sql ="CREATE TABLE IF NOT EXISTS `people` (
-                    `id` AUTO_INCREMENT unsigned int(11) NOT NULL ,
+                    PRIMARY KEY `id` AUTO_INCREMENT unsigned int(11) NOT NULL ,
                     `name` varchar(255) DEFAULT '',
                     `age` int(11) DEFAULT NULL,
-                    PRIMARY KEY (`id`)
                   ) ;
                   " ;
                 $db->exec($sql);
@@ -42,11 +28,11 @@ class AdminController extends \Bumip\Core\SubController
                 //echo $e->getMessage();//Remove or change message in production code
             }
             print("Inserting Values.\n");
-            $people = $this->db->insertInto("people")->values(['name' => 'Ray', 'age' => 25])->execute();
+            $people = $this->db->insertInto("people")->values(['id' => null, 'name' => 'Ray', 'age' => 25])->execute();
             
-            $people = $this->db->insertInto("people")->values(['name' => 'John',  'age' => 30])->execute();
+            // $people = $this->db->insertInto("people")->values(['name' => 'John',  'age' => 30])->execute();
             
-            $people = $this->db->insertInto("people")->values(['name' => 'Ali', 'age' => 22])->execute();
+            // $people = $this->db->insertInto("people")->values(['name' => 'Ali', 'age' => 22])->execute();
         }
     }
     public function example($args = '1:id/2:table_id')
@@ -75,6 +61,18 @@ class AdminController extends \Bumip\Core\SubController
         }
         return false;
     }
+    public function rebuildEnabledApps()
+    {
+        $delimiter = ['//@begin apps.json', '//@end apps.json'];
+        $apps = file_get_contents('app/apps.json');
+        $enabledApps = file_get_contents('app/enabledApps_default.php');
+        $apps = json_decode($apps, true);
+        $newStr = "\n". '$confApps = ' . var_export($apps, true) . ';' . "\n";
+        $enabledApps = \Bumip\Helpers\StringHelper::replaceDelimited($enabledApps, $newStr, $delimiter);
+        \file_put_contents('app/enabledApps.php', $enabledApps);
+        return true;
+    }
+    
     public function update_ui($args = "1:package/2:uilib")
     {
         $package = $this->getPackage($args["package"]);
@@ -99,7 +97,7 @@ class AdminController extends \Bumip\Core\SubController
                 $content = str_replace($delimiter[0] . " {$k} " . $delimiter[1], $v, $content);
             } elseif (is_object($v)) {
                 if (get_class($v) == 'MongoDB\BSON\ObjectId') {
-                    $content = str_replace("[[{$k}]]", (string) $v, $content);
+                    $content = str_replace($delimiter[0] . " {$k} " . $delimiter[1], (string) $v, $content);
                 }
             }
         }

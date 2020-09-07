@@ -1,0 +1,41 @@
+{
+    "enabledApps": {
+        "package_0001": {
+            "directory": "org.bumip.admin",
+            "classPaths": {
+                "Bumip\\Apps\\Admin\\AdminController": "Admin.php"
+            }
+        },
+        "package_0002": {
+            "directory": "com.tomokit.reservation-manager",
+            "classPaths": {
+                "Tomokit\\ReservationManagerController": "ReservationManager.php"
+            }
+        },
+        "package_0003": {
+            "directory": "org.bumip.user",
+            "classPaths": {
+                "Bumip\\Apps\\User\\UserController": "User.php"
+            }
+        }
+    },
+    "classMap": {
+        "Bumip\\Apps\\Admin\\AdminController": "package_0001",
+        "Tomokit\\ReservationManagerController": "package_0002",
+        "Bumip\\Apps\\User\\UserController": "package_0003"
+    },
+    "controllerMap": {
+        "admin": "Bumip\\Apps\\Admin\\AdminController",
+        "user": "Bumip\\Apps\\User\\UserController",
+        "hosting3": "Tomokit\\ReservationManagerController"
+    },
+    "enabledEntities": {
+        "global": {
+            "user": {
+                "class": "Bumip\\Entities\\User",
+                "path": "app\/entities\/User.php",
+                "controllerProperty": "user"
+            }
+        }
+    }
+}
