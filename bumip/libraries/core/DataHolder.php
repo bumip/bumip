@@ -66,10 +66,10 @@ class DataHolder implements \IteratorAggregate
     /**
      * Returns json_encoded string
      *
-     * @param enum $options example JSON_PRETTY_PRINT
+     * @param array $options example JSON_PRETTY_PRINT
      * @return string
      */
-    public function toJson(enum $options = null):string
+    public function toJson(array $options = null):string
     {
         return json_encode($this->data, $options);
     }

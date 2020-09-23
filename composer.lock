@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7df34f5ac1a559e6e38f13320445ad4",
+    "content-hash": "c0aedc60690ff9aa187070879b79c344",
     "packages": [
+        {
+            "name": "bumip/json-schema-sql",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bumip/json-schema-sql.git",
+                "reference": "d6a7bbaa57d2dc6ea4f24149a98b4292c386ac90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bumip/json-schema-sql/zipball/d6a7bbaa57d2dc6ea4f24149a98b4292c386ac90",
+                "reference": "d6a7bbaa57d2dc6ea4f24149a98b4292c386ac90",
+                "shasum": ""
+            },
+            "require": {
+                "justinrainbow/json-schema": "^5.0@dev",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bumip\\JsonSchema\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "antocorr",
+                    "email": "navylon@gmail.com"
+                }
+            ],
+            "description": "Helper for converting json-schemas to sql create table statement",
+            "time": "2020-09-08T11:09:38+00:00"
+        },
         {
             "name": "envms/fluentpdo",
             "version": "v2.1.2",
@@ -55,6 +95,72 @@
                 "query"
             ],
             "time": "2018-10-30T11:53:23+00:00"
+        },
+        {
+            "name": "justinrainbow/json-schema",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/justinrainbow/json-schema.git",
+                "reference": "2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b",
+                "reference": "2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
+                "json-schema/json-schema-test-suite": "1.2.0",
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "bin": [
+                "bin/validate-json"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JsonSchema\\": "src/JsonSchema/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bruno Prieto Reis",
+                    "email": "bruno.p.reis@gmail.com"
+                },
+                {
+                    "name": "Justin Rainbow",
+                    "email": "justin.rainbow@gmail.com"
+                },
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                },
+                {
+                    "name": "Robert Schönthal",
+                    "email": "seroscho@googlemail.com"
+                }
+            ],
+            "description": "A library to validate a json schema.",
+            "homepage": "https://github.com/justinrainbow/json-schema",
+            "keywords": [
+                "json",
+                "schema"
+            ],
+            "time": "2020-05-27T16:41:55+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2166,7 +2272,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "bumip/json-schema-sql": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

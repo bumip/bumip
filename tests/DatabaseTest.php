@@ -79,6 +79,20 @@ final class DatabaseTest extends TestCase
         return true;
     }
     /** @test */
+    public function insertSomethingUsingMagicWithLessFields()
+    {
+        /** This test should fail */
+        try {
+            $this->db->items->insertOne(["name" => "Phone Cover", "price" => 8.5, "user_id" => 2])->execute();
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            $this->assertTrue(true);
+            return false;
+        }
+        $this->assertTrue(false);
+        return true;
+    }
+    /** @test */
     public function getAll()
     {
         try {
