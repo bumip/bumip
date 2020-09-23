@@ -24,7 +24,7 @@ class AdminController extends \Bumip\Core\SubController
                   ) ;
                   " ;
                 $db->exec($sql);
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 //echo $e->getMessage();//Remove or change message in production code
             }
             print("Inserting Values.\n");

@@ -67,10 +67,25 @@ final class EntityEditorTest extends TestCase
         $entities = $this->c->loadEntity($name);
         $this->assertIsObject($entities);
     }
-    public function testSaveEntity()
+    public function testSaveEntityNew()
     {
-        $name = "test";
-        $result = $this->c->saveEntity();
-        $this->assertTrue($result);
+        $name = "tester" . rand(0, 500);
+        $entity = ['a' => 'n'];
+        $result = $this->c->saveEntity($name, $entity);
+        $this->assertIsObject($result);
+    }
+    public function testSaveEntityExisting()
+    {
+        $name = "tester";
+        $entity = ['a' => 'n'];
+        $result = $this->c->saveEntity($name, $entity);
+        $this->assertIsObject($result);
+    }
+    public function testSaveEntityExistingSingleFile()
+    {
+        $name = "User";
+        $entity = ['a' => 'n'];
+        $result = $this->c->saveEntity($name, $entity);
+        $this->assertIsObject($result);
     }
 }

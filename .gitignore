@@ -29,3 +29,4 @@ Temporary Items
 #PHP
 vendor/
 app/apps/com.tomokit.*
+tests/entities/tester*

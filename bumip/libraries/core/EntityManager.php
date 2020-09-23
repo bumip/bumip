@@ -88,7 +88,7 @@ class EntityManager extends DataHolder
         $lowercase = $basePath . \strtolower($entityName) . '/';
         $hasDir[(int) is_dir($lowercase)] = $lowercase;
         if (!empty($hasDir[1])) {
-            $entity = ['name' => \ucfirst($entityName), 'path' => $hasDir[1]];
+            $entity = ['name' => \ucfirst($entityName), 'path' => $hasDir[1], 'isDirectory' => true];
             //is a directory entity.
             $entity['files'] = $this->getEntityFiles($hasDir[1], true);
             return $entity ? new \Bumip\Core\DataHolder($entity) : false;
@@ -101,7 +101,7 @@ class EntityManager extends DataHolder
                 (strpos(strtolower($f), strtolower($entityName . '.php')) > -1 || strpos(strtolower($f), strtolower($entityName . '-')) > -1)) {
                     $info = pathinfo($f);
                     $name = ucfirst(basename($f, '.'.$info['extension']));
-                    $entity = ['name' => $name, "extention" => $info['extension'], 'path' => $basePath . $info['basename']];
+                    $entity = ['name' => $name, "extention" => $info['extension'], 'path' => $basePath . $info['basename'],  'isDirectory' => false];
                     if (!empty($entities[$name])) {
                         $entities[$name] = array_merge($entities[$name], $entity);
                     } else {
@@ -112,8 +112,50 @@ class EntityManager extends DataHolder
             return $entity ? new \Bumip\Core\DataHolder($entity) : false;
         }
     }
-    public function saveEntity()
+    /**@todo check default json-schema type for php (assoc or object?) */
+    private function generateEntityFiles($e)
     {
-        return false;
+        //is valid json_string
+        if (is_string($e) && strpos($e, '{') != -1) {
+            $entity['json'] = ['type' => 'json', 'content' => $e];
+            $ePhp = 'return ' . var_export(\json_decode($e, true), true) . ';';
+            $entity['php'] = ['type' => 'php', 'content' => $ePhp];
+        } else {
+            //is array / object
+            $entity['json'] = ['type' => 'json', 'content' => json_encode($e)];
+            $ePhp = 'return ' . var_export($e, true) . ';';
+            $entity['php'] = ['type' => 'php', 'content' => $ePhp];
+        }
+        return $entity;
+    }
+    public function saveEntity(string $entityName, $entity)
+    {
+        $existingEntity = $this->loadEntity($entityName);
+        $entityFiles = $this->generateEntityFiles($entity);
+        if ($existingEntity) {
+            foreach (['json', 'php'] as $f) {
+                if ($existingEntity->get('isDirectory')) {
+                    $fileName = $existingEntity->get('path') . 'schema.' . $f;
+                } else {
+                    if (!is_dir($this->directory . 'schemas')) {
+                        mkdir($this->directory . 'schemas', 0755);
+                    }
+                    $fileName = $this->directory . $entityName . '.' . $f;
+                    if ($f == 'php') {
+                        $fileName = $this->directory . 'schemas/' . $entityName . '-schema.' . $f;
+                    }
+                }
+                file_put_contents($fileName, $entityFiles[$f]['content']);
+            }
+        } else {
+            if (!is_dir($this->directory . '/' . strtolower($entityName))) {
+                mkdir($this->directory . '/' . strtolower($entityName), 0755);
+            }
+            foreach (['json', 'php'] as $f) {
+                $fileName = $this->directory . '/' . strtolower($entityName) . '/schema.' . $f;
+                file_put_contents($fileName, $entityFiles[$f]['content']);
+            }
+        }
+        return $this->loadEntity($entityName);
     }
 }
