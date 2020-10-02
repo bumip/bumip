@@ -37,12 +37,12 @@ class AdminController extends \Bumip\Core\SubController
     }
     public function example($args = '1:id/2:table_id')
     {
-        list($id, $table_id) = array_values($args);
+        list($id, $table_id) = array_values((array) $args);
         print $id;
     }
     private function job()
     {
-        echo $this->url->pairGetValue("job");
+        echo $this->request->pairGetValue("job");
     }
     /**
      * get package json as array

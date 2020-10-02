@@ -33,6 +33,8 @@ final class EntityEditorTest extends TestCase
         $conf = new \Bumip\Core\DataHolder();
         $this->c = new $this->className($conf);
         $this->c->setDirectory("tests/entities/");
+        require_once 'app/apps/org.bumip.entity-editor/app/EntityEditor.php';
+        $this->e = new \Bumip\Apps\Admin\EntityEditor($this->c, ['get' => 'list']);
     }
     /** @test */
     public function testClassisCorrect()
@@ -44,9 +46,26 @@ final class EntityEditorTest extends TestCase
         $entities = $this->c->list("tests/entities/");
         $this->assertIsArray($entities);
     }
+    public function testListEntitiesByUrl()
+    {
+        $conf = new \Bumip\Core\DataHolder();
+        $request = new \Bumip\Core\Request($conf);
+        $request->makeIndexes('');
+        $entities = $this->e->index($request);
+        $this->assertIsArray($entities);
+    }
     public function testListEntitiesOnEmpty()
     {
         $entities = $this->c->list("tests/emptydir");
+        $this->assertFalse($entities);
+    }
+    public function testListEntitiesOnEmptyByUrl()
+    {
+        $this->c->setDirectory("tests/emptydir");
+        $conf = new \Bumip\Core\DataHolder();
+        $request = new \Bumip\Core\Request($conf);
+        $request->makeIndexes('');
+        $entities = $this->e->index($request);
         $this->assertFalse($entities);
     }
     public function testGetEntityNotExists()

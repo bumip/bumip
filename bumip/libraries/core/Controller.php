@@ -4,7 +4,7 @@ namespace Bumip\Core;
 class Controller
 {
     protected $config;
-    public $url;
+    public $request;
     public $urlOffset = 1;
     private $protectedMethods = ['load', 'callmethodbyurl'];
     public $db = false;
@@ -24,10 +24,10 @@ class Controller
         if ($config->has("urlObject")) {
             $config->get("urlObject");
         } else {
-            $this->url = new Url($config);
+            $this->request = new Request($config);
         }
         
-        $module = $this->url->index[1] ?? "main";
+        $module = $this->request->index[1] ?? "main";
         if (OMIT_MAIN) {
             $module = "main";
         }
@@ -37,20 +37,20 @@ class Controller
          * If OMIT_MAIN == True /hello will just try to call the method hello(). If you need a specific controller for Hello,
          * you can Load a new Controller Class inside the hello method
          */
-        if (isset($this->url->index[2]) && $this->url->index[2] != "" && !OMIT_MAIN) {
-            $this->action = $this->url->index[2];
+        if (isset($this->request->index[2]) && $this->request->index[2] != "" && !OMIT_MAIN) {
+            $this->action = $this->request->index[2];
         } elseif (OMIT_MAIN) {
-            $this->action = $this->url->index[1] ?? DEFAULT_ACTION;
+            $this->action = $this->request->index[1] ?? DEFAULT_ACTION;
         } else {
             $this->action = DEFAULT_ACTION;
         }
         if ($urlOffset) {
-            if (!empty($this->url->index[$urlOffset])) {
-                $this->action = $this->url->index[$urlOffset];
+            if (!empty($this->request->index[$urlOffset])) {
+                $this->action = $this->request->index[$urlOffset];
             } else {
                 $this->action = DEFAULT_ACTION;
             }
-            $this->urlOffset = $urlOffset;
+            $this->requestOffset = $urlOffset;
         }
         /**
          * This part will be removed once we fix autoloading.
@@ -103,7 +103,7 @@ class Controller
                 $args = [];
                 foreach ($params as $param) {
                     if ($param->getName() == "args") {
-                        $args = $this->url->toArgs($param->getDefaultValue());
+                        $args = $this->request->toArgs($param->getDefaultValue());
                     }
                 }
                 if (count($args)) {
@@ -155,7 +155,7 @@ class Controller
      * @param boolean $data
      * @return void
      */
-    public function load($file, $data = false, $dir = "view")
+    public function load($file, array $data = null, $dir = "view")
     {
         if (isset($GLOBALS['passed'])) {
             $passed = $GLOBALS['passed'];
@@ -186,21 +186,21 @@ class Controller
         $height = false;
         $cache = false;
         if ($this->useimgcache) {
-            $cache = $this->url->index(4);
+            $cache = $this->request->index(4);
         }
         $cachetime = 3600;
-        $src = UPLOADFOLDER . $this->url->index(4);
+        $src = UPLOADFOLDER . $this->request->index(4);
         if (!empty($_GET['path'])) {
             $src = UPLOADFOLDER . $_GET['path'];
             if ($this->useimgcache) {
                 $cache = UPLOADFOLDER . $_GET['path'];
             }
         }
-        if ($this->url->index(2) != "x") {
-            $width = $this->url->index(2);
+        if ($this->request->index(2) != "x") {
+            $width = $this->request->index(2);
         }
-        if ($this->url->index(3) != "x") {
-            $height = $this->url->index(3);
+        if ($this->request->index(3) != "x") {
+            $height = $this->request->index(3);
         }
         $op = new Resizer($src, $width, $height, $cache, $cachetime);
     }

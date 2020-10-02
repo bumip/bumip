@@ -16,7 +16,7 @@ class UserController extends \Bumip\Core\SubController
         // $this->db = &$c->db;
         $connection = \Bumip\Core\Database\Connection::getConnection(DATABASE_DRIVER);
         $this->db =  \Bumip\Core\Database\Connection::getDatabase(DATABASE_DRIVER);
-        $this->url = &$c->url;
+        $this->request = &$c->request;
         $this->user = &$this->parent->user;
         // foreach ($options as $k => $v) {
         //     $this->options[$k] = $v;
@@ -25,7 +25,7 @@ class UserController extends \Bumip\Core\SubController
         /**
          * 3 becomes 1, helps with params.
          */
-        $this->url->setOffset(3);
+        $this->request->setOffset(3);
     }
 
     public function example($args = '1:id/2:table_id')
@@ -36,8 +36,8 @@ class UserController extends \Bumip\Core\SubController
     public function index()
     {
         if (!$this->user->isLogged()) {
-            $url = $this->config->get("parentMethod") . "/signup";
-            $this->url->redirect($url);
+            $request = $this->config->get("parentMethod") . "/signup";
+            $this->request->redirect($request);
         } else {
             //Dashboard
         }

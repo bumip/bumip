@@ -2,10 +2,10 @@
 namespace Bumip\Core;
 
 /**
- * Class Url
+ * Class Request
  *
  */
-class Url
+class Request
 {
     /**
      * Properties
@@ -13,9 +13,11 @@ class Url
      * @var [type]
      */
     public $self;
-    public $fullSelf;
+    public $method;
+    public $url;
     public $index;
     public $indexOffset = 1;
+    private $requestData;
     private $config;
     public $referer;
     public $referrer;
@@ -27,7 +29,10 @@ class Url
     {
         $this->self = $_SERVER['REQUEST_URI'];
         $protocol = !empty($_SERVER['HTTPS'])? 'https' : 'http';
-        $this->fullSelf = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $this->request = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $this->method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        $this->requestData = $_REQUEST ?? [];
+
         if (!empty($_SERVER['PATH_INFO'])) {
             $this->mode = "pathinfo";
             $this->pathinfo = $_SERVER['PATH_INFO'];
@@ -175,10 +180,13 @@ class Url
       |		Method : makeIndexes
       ---------------------------------------------------------------- */
 
-    public function makeIndexes()
+    public function makeIndexes(string $url = null)
     {
         $this->index = array();
         $indexes = explode("/", $this->pathinfo);
+        if ($url) {
+            $indexes = explode('/', $url);
+        }
         foreach ($indexes as $k => $v) {
             if ($v != "") {
                 $this->index[$k] = $v;
@@ -309,7 +317,7 @@ class Url
         }
     }
 
-    public function last_index()
+    public function lastIndex()
     {
         if (empty($this->index) or !$this->index) {
             return false;
@@ -317,5 +325,9 @@ class Url
             $ix = $this->index;
             return array_pop($ix);
         }
+    }
+    public function data(string $key, $returnOnNull = false)
+    {
+        return $this->requestData[$key] ?? $returnOnNull;
     }
 }

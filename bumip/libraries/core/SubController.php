@@ -13,17 +13,17 @@ class SubController extends \Bumip\Core\Controller
         }
         $this->connection = \Bumip\Core\Database\Connection::getConnection(DATABASE_DRIVER);
         $this->db =  \Bumip\Core\Database\Connection::getDatabase(DATABASE_DRIVER);
-        if (!isset($this->parent->url)) {
-            $this->url = new Url($config);
+        if (!isset($this->parent->request)) {
+            $this->request = new Request($config);
         } else {
-            $this->url = &$this->parent->url;
+            $this->request = &$this->parent->request;
         }
         $this->user = &$this->parent->user;
         foreach ($options as $k => $v) {
             $this->options[$k] = $v;
         }
         $offset = 2;
-        $this->url->setOffset($offset + 1);
+        $this->request->setOffset($offset + 1);
         parent::__construct($config, $offset);
     }
 }

@@ -35,7 +35,7 @@ final class AdminTest extends TestCase
     public function can_rebuild_apps_json()
     {
         $config = new \Bumip\Core\DataHolder;
-        $config->data("urlObject", new \Bumip\Core\Url($config));
+        $config->data("urlObject", new \Bumip\Core\Request($config));
         $app = new \Bumip\Apps\Admin\AdminController($config);
         $this->assertTrue($app->rebuildEnabledApps());
     }
@@ -43,7 +43,7 @@ final class AdminTest extends TestCase
     public function can_replace_delimited()
     {
         $config = new \Bumip\Core\DataHolder;
-        $config->data("urlObject", new \Bumip\Core\Url($config));
+        $config->data("urlObject", new \Bumip\Core\Request($config));
         $app = new \Bumip\Apps\Admin\AdminController($config);
         $str = "Ciao //@begin edit //@end miao";
         $newstr = \Bumip\Helpers\StringHelper::replaceDelimited($str, " edited ");
