@@ -19,10 +19,17 @@ class EntityManager extends DataHolder
     {
         $this->config = $conf;
         $this->directory = empty($this->config->get("entitiesDirectory")) ? 'app/entities/' : $this->config->get("entitiesDirectory");
+        //if has no trailing slash
+        if (strpos($this->directory, '/', -1) != strlen($this->directory) - 1) {
+            $this->directory .= '/';
+        }
     }
     public function setDirectory($dir)
     {
         $this->directory = $dir;
+        if (strpos($this->directory, '/', -1) != (strlen($this->directory) - 1)) {
+            $this->directory .= '/';
+        }
     }
     public function list($dir = null)
     {
@@ -42,7 +49,7 @@ class EntityManager extends DataHolder
         foreach ($dirContent as $f) {
             if ($f == '..' || $f == '.') {
                 //Skip
-            } elseif (!is_dir($basePath . $f)) {
+            } elseif (!is_dir($basePath . $f) && is_file($basePath . $f)) {
                 $info = pathinfo($f);
                 $name = ucfirst(basename($f, '.'.$info['extension']));
                 $entity = ['name' => $name, "extention" => $info['extension'], 'path' => $basePath . $info['basename']];

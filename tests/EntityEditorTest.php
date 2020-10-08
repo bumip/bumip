@@ -80,6 +80,16 @@ final class EntityEditorTest extends TestCase
         $entities = $this->c->loadEntity($name);
         $this->assertIsObject($entities);
     }
+    public function testGetEntityDirByUrl()
+    {
+        $name = "Order";
+        $this->c->setDirectory("tests/entities");
+        $conf = new \Bumip\Core\DataHolder();
+        $request = new \Bumip\Core\Request($conf);
+        $request->makeIndexes('entities/' . $name);
+        $entities = $this->e->index($request);
+        $this->assertIsObject($entities);
+    }
     public function testGetEntityFile()
     {
         $name = "User";
@@ -106,5 +116,15 @@ final class EntityEditorTest extends TestCase
         $entity = ['a' => 'n'];
         $result = $this->c->saveEntity($name, $entity);
         $this->assertIsObject($result);
+    }
+    public function testRemoveTestDirectories()
+    {
+        foreach (scandir('tests/entities') as $dir) {
+            if (strpos($dir, 'tester') === 0) {
+                array_map('unlink', glob('tests/entities/' . $dir ."/*.*"));
+                rmdir('tests/entities/' . $dir);
+            }
+        }
+        $this->assertFalse(is_dir('tests/entities/tester'));
     }
 }
