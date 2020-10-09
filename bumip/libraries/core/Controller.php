@@ -89,13 +89,29 @@ class Controller
             echo "To enable the controller method '$action' you need to exclude it from the protectedMethods list";
             return false;
         }
+        $mountPoint = $this->config->data('currentApp/directory') ? $this->config->data('currentApp/directory') : 'main';
         $apps = $this->config->data("apps");
         if (!empty($apps["controllerMap"][$action])) {
             $class = $apps["controllerMap"][$action];
             $this->config->data("parentMethod", $action);
-            $app = new $class($this->config, $this, $this->options ?? []);
-            $app->callMethodByUrl();
-            return true;
+            // By "current" we intend the app we want to mount, will be current once the class is called.
+            $currentPackage = $apps["classMap"][$class];
+            $currentApp = $apps["enabledApps"][$currentPackage];
+            $currentApp['package'] = $currentPackage;
+            $isMountable = false;
+            if (empty($currentApp['mountPoint']) && $mountPoint == 'main') {
+                //the app will be mounted in the root (main) controller.
+                $isMountable = true;
+            } elseif (!empty($currentApp['mountPoint']) && $currentApp['mountPoint'] == $mountPoint) {
+                $isMountable = true;
+            }
+            if ($isMountable) {
+                $this->config->data('currentPackage', $currentPackage);
+                $this->config->data('currentApp', $currentApp);
+                $app = new $class($this->config, $this, $this->options ?? []);
+                $app->callMethodByUrl();
+                return true;
+            }
         }
         if (method_exists($this, $action)) {
             $r = new \ReflectionMethod(get_class($this), $action);

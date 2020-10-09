@@ -35,6 +35,9 @@ class AdminController extends \Bumip\Core\SubController
             // $people = $this->db->insertInto("people")->values(['name' => 'Ali', 'age' => 22])->execute();
         }
     }
+    public function entities()
+    {
+    }
     public function example($args = '1:id/2:table_id')
     {
         list($id, $table_id) = array_values((array) $args);
