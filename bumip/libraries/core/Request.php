@@ -187,9 +187,11 @@ class Request
         if ($url) {
             $indexes = explode('/', $url);
         }
-        foreach ($indexes as $k => $v) {
+        $i = 1;
+        foreach ($indexes as $v) {
             if ($v != "") {
-                $this->index[$k + 1] = $v;
+                $this->index[$i] = $v;
+                $i += 1;
             }
         }
         /**

@@ -26,7 +26,7 @@ final class ControllerTest extends TestCase
     public function controller_class_is_correct()
     {
         $config = new \Bumip\Core\DataHolder;
-        $config->data("urlObject", new \Bumip\Core\Request($config));
+        $config->data("requestObject", new \Bumip\Core\Request($config));
         $app = new \Bumip\Core\Controller($config);
         $this->assertEquals(get_class($app), "Bumip\Core\Controller");
     }

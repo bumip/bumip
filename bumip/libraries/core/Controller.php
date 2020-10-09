@@ -21,10 +21,11 @@ class Controller
     public function __construct($config = null, $urlOffset = null)
     {
         $this->config = $config;
-        if ($config->has("urlObject")) {
-            $config->get("urlObject");
+        if ($config->has("requestObject")) {
+            $this->request = $config->get("requestObject");
         } else {
             $this->request = new Request($config);
+            $this->config->data('requestObject', $this->request);
         }
         
         $module = $this->request->index[1] ?? "main";
@@ -131,20 +132,6 @@ class Controller
     public function index()
     {
         echo "please override this method";
-    }
-    /**
-     * @todo replace with Query builder. Move it to the MainController.
-     *
-     * @return void
-     */
-    public function mysqlconnect()
-    {
-        if (!$this->db) {
-            require_once "db.php";
-            $this->db = new db();
-        }
-        $this->db->connect(DBHOST, DBUSER, DBPASS);
-        $this->db->selectdb(DBNAME);
     }
     /**
      * @method load()

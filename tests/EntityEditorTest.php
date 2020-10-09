@@ -34,7 +34,7 @@ final class EntityEditorTest extends TestCase
         $this->c = new $this->className($conf);
         $this->c->setDirectory("tests/entities/");
         require_once 'app/apps/org.bumip.entity-editor/app/EntityEditor.php';
-        $this->e = new \Bumip\Apps\Admin\EntityEditor($this->c, ['get' => 'list']);
+        $this->e = new \Bumip\Apps\Admin\EntityEditor($this->c, ['get' => 'list', 'getOne' => 'loadEntity']);
     }
     /** @test */
     public function testClassisCorrect()

@@ -5,7 +5,7 @@ class EntityEditor
 {
     private $dataManager;
     private $actionMap;
-    public function __construct(object $dataManager = null, array $actionMap = ['get' => 'get', 'save' => 'save'])
+    public function __construct(object $dataManager = null, array $actionMap = ['get' => 'get', 'save' => 'save', 'getOne' => 'getOne'])
     {
         $this->actionMap = $actionMap;
         if ($dataManager) {
@@ -14,7 +14,7 @@ class EntityEditor
             $this->dataManager = new \Bumip\Core\EntityManager(new \Bumip\Core\DataHolder());
         }
     }
-    private function crud(string $action, array $query = null, array $data = null)
+    private function crud(string $action, $query = null, array $data = null)
     {
         /**
          * /entities/ = get
@@ -37,11 +37,18 @@ class EntityEditor
         $data = $this->request->data('data') ? $this->request->data('data') : null;
         //save = upsert (insert or update)
         $action = $data ? 'save' : 'get';
+        if ($action == 'get' && $id) {
+            $action = 'getOne';
+        }
         return $this->crud($action, $query, $data);
     }
     private function get($query)
     {
         return $this->dataManager->{$this->actionMap['get']}($query);
+    }
+    private function getOne($query)
+    {
+        return $this->dataManager->{$this->actionMap['getOne']}($query);
     }
     private function save($query)
     {
