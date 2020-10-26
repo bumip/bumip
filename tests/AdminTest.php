@@ -50,4 +50,8 @@ final class AdminTest extends TestCase
         $this->assertTrue(is_string($newstr));
         $this->assertEquals($newstr, "Ciao //@begin edited //@end miao");
     }
+    public function testGetApps()
+    {
+        $this->assertTrue(false);
+    }
 }

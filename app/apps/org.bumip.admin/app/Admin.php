@@ -64,6 +64,9 @@ class AdminController extends \Bumip\Core\SubController
         }
         return false;
     }
+    public function apps()
+    {
+    }
     public function rebuildEnabledApps()
     {
         $delimiter = ['//@begin apps.json', '//@end apps.json'];

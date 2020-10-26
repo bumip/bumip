@@ -1,0 +1,31 @@
+{
+    "icon": "assets/icons/icon-users.svg",
+    "cover": "assets/img/user-app.png",
+    "title": "User App",
+    "description": "This app adds signup, login and user settings functionality",
+    "worksWith": [
+        "MongoDb",
+        "PDO",
+        "Admin",
+        "Reservations"
+    ],
+    "comesWith": [
+        "Entities",
+        "UI",
+        "Admin UI"
+    ],
+    "settings": {
+        "properties": {
+            "route": {
+                "type": "string",
+                "title": "route",
+                "default": "/user"
+            },
+            "adminRoute": {
+                "type": "string",
+                "title": "admin route",
+                "default": "/users"
+            }
+        }
+    }
+}
