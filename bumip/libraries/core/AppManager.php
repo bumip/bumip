@@ -7,10 +7,13 @@ namespace Bumip\Core;
  * if you load an Entity it will be saved in Data.
  * It does filesystem manipulation, so it can be slow but it should be used only by admins/dev and not so often.
  */
-class EntityManager extends FileDataManager
+class AppManager extends DataHolder
 {
-    private $noun = 'entity';
-    private $nounPlural = 'entities';
+    private $config;
+    private $entities;
+    private $directory;
+    private $currentEntityName = null;
+    private $currentEntityPath = null;
 
     public function __construct(DataHolder $conf)
     {
@@ -21,11 +24,18 @@ class EntityManager extends FileDataManager
             $this->directory .= '/';
         }
     }
+    public function setDirectory($dir)
+    {
+        $this->directory = $dir;
+        if (strpos($this->directory, '/', -1) != (strlen($this->directory) - 1)) {
+            $this->directory .= '/';
+        }
+    }
     public function list($dir = null)
     {
         $dir = $dir ?? $this->directory;
         $dirContent = scandir($dir);
-        echo '1.' . $basePath = $dir;
+        $basePath = $dir;
         //Count 2 because first 2 elements of scandir are for directory navigation (eg. "." "..")
         if (count($dirContent) == 2) {
             return false;
@@ -52,13 +62,30 @@ class EntityManager extends FileDataManager
                 $currentPath = $basePath . $f . '/';
                 $name = ucfirst($f);
                 $entities[$name] = ['name' => $name, 'path' => $currentPath];
-                $entities[$name]['files'] = $this->getFiles($f);
+                $entities[$name]['files'] = $this->getEntityFiles($f);
             }
         }
         $this->entities = $entities;
         return ($entities);
     }
-
+    private function getEntityFiles($path, $isFullPath = false)
+    {
+        $currentPath = $this->directory . $path . '/';
+        if ($isFullPath) {
+            $currentPath = $path;
+        }
+        $files = [];
+        foreach (scandir($currentPath) as $ff) {
+            if ($ff == '..' || $ff == '.') {
+                //Skip
+            } elseif (!is_dir($currentPath . $ff)) {
+                $info = pathinfo($ff);
+                $file = [ "extention" => $info['extension'], 'path' => $currentPath . $info['basename']];
+                $files[] = $file;
+            }
+        }
+        return $files;
+    }
     public function loadEntity(string $entityName)
     {
         //let's check if there is a directory with that name.
@@ -70,7 +97,7 @@ class EntityManager extends FileDataManager
         if (!empty($hasDir[1])) {
             $entity = ['name' => \ucfirst($entityName), 'path' => $hasDir[1], 'isDirectory' => true];
             //is a directory entity.
-            $entity['files'] = $this->getFiles($hasDir[1], true);
+            $entity['files'] = $this->getEntityFiles($hasDir[1], true);
             return $entity ? new \Bumip\Core\DataHolder($entity) : false;
         } else {
             $entity = false;

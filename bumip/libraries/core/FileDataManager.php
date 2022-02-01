@@ -7,17 +7,29 @@ namespace Bumip\Core;
  * if you load an Entity it will be saved in Data.
  * It does filesystem manipulation, so it can be slow but it should be used only by admins/dev and not so often.
  */
-class EntityManager extends FileDataManager
+class FileDataManager extends DataHolder
 {
+    private $config;
     private $noun = 'entity';
     private $nounPlural = 'entities';
+    private $entities;
+    private $directory;
+    private $currentEntityName = null;
+    private $currentEntityPath = null;
 
-    public function __construct(DataHolder $conf)
+    public function __construct(DataHolder $conf, $directory =  'app/entities/')
     {
         $this->config = $conf;
-        $this->directory = empty($this->config->get("entitiesDirectory")) ? 'app/entities/' : $this->config->get("entitiesDirectory");
+        $this->directory = empty($this->config->get($this->nounPlural + "Directory")) ? $directory : $this->config->get($this->nounPlural + "Directory");
         //if has no trailing slash
         if (strpos($this->directory, '/', -1) != strlen($this->directory) - 1) {
+            $this->directory .= '/';
+        }
+    }
+    public function setDirectory($dir)
+    {
+        $this->directory = $dir;
+        if (strpos($this->directory, '/', -1) != (strlen($this->directory) - 1)) {
             $this->directory .= '/';
         }
     }
@@ -25,7 +37,7 @@ class EntityManager extends FileDataManager
     {
         $dir = $dir ?? $this->directory;
         $dirContent = scandir($dir);
-        echo '1.' . $basePath = $dir;
+        $basePath = $dir;
         //Count 2 because first 2 elements of scandir are for directory navigation (eg. "." "..")
         if (count($dirContent) == 2) {
             return false;
@@ -58,7 +70,24 @@ class EntityManager extends FileDataManager
         $this->entities = $entities;
         return ($entities);
     }
-
+    protected function getFiles($path, $isFullPath = false)
+    {
+        $currentPath = $this->directory . $path . '/';
+        if ($isFullPath) {
+            $currentPath = $path;
+        }
+        $files = [];
+        foreach (scandir($currentPath) as $ff) {
+            if ($ff == '..' || $ff == '.') {
+                //Skip
+            } elseif (!is_dir($currentPath . $ff)) {
+                $info = pathinfo($ff);
+                $file = [ "extention" => $info['extension'], 'path' => $currentPath . $info['basename']];
+                $files[] = $file;
+            }
+        }
+        return $files;
+    }
     public function loadEntity(string $entityName)
     {
         //let's check if there is a directory with that name.
